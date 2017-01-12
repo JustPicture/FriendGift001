@@ -1,6 +1,8 @@
 package com.ak.lkp.friendgift.OkGo;
 
 
+import android.app.Activity;
+
 import com.ak.lkp.friendgift.Entity.LkpResponse;
 import com.ak.lkp.friendgift.Utils.Convert;
 import com.lzy.okgo.callback.AbsCallback;
@@ -16,6 +18,22 @@ import okhttp3.Response;
  */
 
 public abstract class JsonCallBack<T> extends AbsCallback<T> {
+
+//    Handler mHandler = new Handler(){
+//        @Override
+//        public void handleMessage(Message msg) {
+//            if (msg.what == 100){
+//            CustomDialog customDialog = new CustomDialog(mActivity);
+//            customDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+//            customDialog.show();
+//            }
+//        }
+//    };
+
+    Activity mActivity;
+    public JsonCallBack(Activity activity) {
+        this.mActivity = activity;
+    }
 
     @Override
     public void onBefore(BaseRequest request) {
@@ -34,20 +52,26 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
     @Override
     public T convertSuccess(Response response) throws Exception {
         Type genType = getClass().getGenericSuperclass();
-        Type type = ((ParameterizedType)genType).getActualTypeArguments()[0];
+        Type type = ((ParameterizedType) genType).getActualTypeArguments()[0];
 
         String string = response.body().string();
         LkpResponse result = Convert.fromJson(string, type);
         response.close();
-        if (result.code == 200){
+        if (result.code == 200) {
             return (T) result;
-        }else  if (result.code == 203){
+        } else if (result.code == 201) {
+//            Message message = new Message();
+//            message.what = 100;
+//            Bundle bundle = new Bundle();
+//            bundle.putString("yichang","异地登录");
+//            message.setData(bundle);
+//          mHandler.sendMessage(message);
+            throw new IllegalArgumentException("异地登录");
+        } else if (result.code == 203) {
             throw new IllegalArgumentException("举个错误例子");
-        }else {
+        } else {
             throw new IllegalArgumentException(result.message);
         }
-
-
     }
 
 }

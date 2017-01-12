@@ -1,13 +1,55 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ak.lkp.friendgift.UI.GiftListFragment">
+    android:orientation="vertical"
+    android:padding="20dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="giftlist" />
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="button下方弹窗"
+        android:textSize="15sp"
+        android:background="@android:color/darker_gray"
+        android:textColor="@android:color/black"
+        android:padding="10dp"
+        />
+    <TextView
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="button上方弹窗"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/darker_gray"
+        android:textColor="@android:color/black"
+        android:padding="10dp"
+        />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pop菜单弹窗"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/darker_gray"
+        android:textColor="@android:color/black"
+        android:padding="10dp"
+        />
+    <TextView
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pop ListView列表"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/darker_gray"
+        android:textColor="@android:color/black"
+        android:padding="10dp"
+        />
+</LinearLayout>
