@@ -30,6 +30,7 @@ public class HomeFragment extends Fragment {
     public static final String itemTitle = "http://api.liwushuo.com/v2/channels/preset?gender=1&generation=0";
     private ArrayList<String> mTitle = new ArrayList<>();
     private ArrayList<String> mData = new ArrayList<>();
+    private ArrayList<Integer> mId = new ArrayList<>();
     private View view;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -72,29 +73,6 @@ public class HomeFragment extends Fragment {
     private void initView() {
         mTabLayout = ((TabLayout) view.findViewById(R.id.home_tl));
         mViewPager = ((ViewPager) view.findViewById(R.id.home_vp));
-
-
-//        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                mViewPager.setCurrentItem(tab.getPosition());
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-//        mTabLayout.setTabsFromPagerAdapter(mAdapter);//设置Tab的标题来自PagerAdapter.getPageTitle()
-//        final TabLayout.TabLayoutOnPageChangeListener listener =
-//                new TabLayout.TabLayoutOnPageChangeListener(mTabLayout);
-//        mViewPager.addOnPageChangeListener(listener);
-
     }
 
     //初始化数据源
@@ -105,18 +83,16 @@ public class HomeFragment extends Fragment {
                 .execute(new DialogCallback<LkpResponse<ItemEntity.DataBean>>(getActivity()) {
                     @Override
                     public void onSuccess(LkpResponse<ItemEntity.DataBean> itemEntityLkpResponse, Call call, Response response) {
-                        mData.clear();
                         mTitle.clear();
-                        for (int i = 0; i < itemEntityLkpResponse.data.getCandidates().size(); i++) {
-                            String title = itemEntityLkpResponse.data.getCandidates().get(i).getName();
-
-                            mData.add(title);
+                        mId.clear();
+                        for (int i = 0; i < itemEntityLkpResponse.data.getChannels().size(); i++) {
+                            String title = itemEntityLkpResponse.data.getChannels().get(i).getName();
+                            int id = itemEntityLkpResponse.data.getChannels().get(i).getId();
+                            mId.add(id);
                             mTitle.add(title);
                         }
-
                         mViewPager.setAdapter(mAdapter);
                         mTabLayout.setupWithViewPager(mViewPager);
-
                     }
 
                     @Override
@@ -141,7 +117,7 @@ public class HomeFragment extends Fragment {
         public Object instantiateItem(View container, int position) {
             TextView tv = new TextView(getActivity());
             tv.setTextSize(30.f);
-            tv.setText(mData.get(position));
+            tv.setText(mId.get(position)+"");
             ((ViewPager) container).addView(tv);
             return tv;
         }
@@ -161,7 +137,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         OkGo.getInstance().cancelAll();
     }
 }
