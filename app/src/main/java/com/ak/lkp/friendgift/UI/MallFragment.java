@@ -67,8 +67,8 @@ private View view;
 //                CategoryFragment categoryFragment = CategoryFragment.newInstance("你好001");
 //                ft.replace(R.id.layFrame, categoryFragment,"categoryFragment");
 //                ft.commit();
-                bottomNavigationBar.selectTab(2,true);
                 EventBus.getDefault().post(new MessageEvent("过年了001"));
+                bottomNavigationBar.selectTab(2,true);
             }
         });
         return view;

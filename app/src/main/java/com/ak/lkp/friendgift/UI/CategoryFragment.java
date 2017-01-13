@@ -60,7 +60,7 @@ public class CategoryFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_category, container, false);
         category_tv1 = ((TextView) view.findViewById(R.id.category_tv1));
         category_ll = ((LinearLayout) view.findViewById(R.id.category_ll));
-        category_tv1.setText(mParam1);
+
         return view;
     }
     @Subscribe
