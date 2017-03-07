@@ -4,13 +4,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ak.lkp.friendgift.UI.CategoryFragment;
 import com.ak.lkp.friendgift.UI.GiftListFragment;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private MallFragment mallFragment;
     private MeFragment meFrament;
     private Fragment currentFragment;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
 
 
     @Override
@@ -42,20 +45,45 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView textView = (TextView) findViewById(R.id.toolbar_title);
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_left);
+        ListView listView = (ListView) findViewById(R.id.drawleft_listview);
 
-        toolbar.setBackgroundColor(Color.CYAN);
+        toolbar.setBackgroundColor(Color.parseColor("#33bbee"));
         // App Logo
-        toolbar.setLogo(R.mipmap.ic_tab_profile_normal);
+//        toolbar.setLogo(R.mipmap.ic_tab_profile_normal);
         // Title
 //        toolbar.setTitle("My Title");
         toolbar.setTitle("");
         // Sub Title
 //        toolbar.setSubtitle("Sub title");
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.mipmap.ic_tab_mall_normal);
-        toolbar.setOnMenuItemClickListener(onMenuItemClick);
-        textView.setText("居中");
+//        toolbar.setNavigationIcon(R.mipmap.ic_tab_mall_normal);
+//        toolbar.setOnMenuItemClickListener(onMenuItemClick);
+        textView.setText("首页");
 //        toolbar.setVisibility(View.GONE);
+        if (null != getSupportActionBar()){
+            getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+
+        //创建返回键，并实现打开关/闭监听
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open, R.string.close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+        mDrawerToggle.syncState();
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        //设置菜单列表
+        ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, lvs);
+        listView.setAdapter(arrayAdapter);
+
+
 
         final BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
@@ -77,12 +105,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
         setDefaultFragment();
         bottomNavigationBar.setTabSelectedListener(this);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bottomNavigationBar.selectTab(3);
-            }
-        });
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                bottomNavigationBar.selectTab(3);
+//            }
+//        });
     }
 
 
@@ -209,33 +237,33 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         currentFragment = fragment;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-//        return super.onCreateOptionsMenu(menu);
-    }
-    private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            String msg = "";
-            switch (menuItem.getItemId()) {
-                case R.id.action_edit:
-                    msg += "Click edit";
-                    break;
-                case R.id.action_share:
-                    msg += "Click share";
-                    break;
-                case R.id.action_settings:
-                    msg += "Click setting";
-                    break;
-            }
-
-            if(!msg.equals("")) {
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        }
-    };
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+////        return super.onCreateOptionsMenu(menu);
+//    }
+//    private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
+//        @Override
+//        public boolean onMenuItemClick(MenuItem menuItem) {
+//            String msg = "";
+//            switch (menuItem.getItemId()) {
+//                case R.id.action_edit:
+//                    msg += "Click edit";
+//                    break;
+//                case R.id.action_share:
+//                    msg += "Click share";
+//                    break;
+//                case R.id.action_settings:
+//                    msg += "Click setting";
+//                    break;
+//            }
+//
+//            if(!msg.equals("")) {
+//                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+//            }
+//            return true;
+//        }
+//    };
 
 }

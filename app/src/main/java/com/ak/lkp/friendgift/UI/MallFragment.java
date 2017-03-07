@@ -9,10 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.ak.lkp.friendgift.R;
-import com.ak.lkp.friendgift.Utils.MessageEvent;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,7 +64,7 @@ private View view;
 //                CategoryFragment categoryFragment = CategoryFragment.newInstance("你好001");
 //                ft.replace(R.id.layFrame, categoryFragment,"categoryFragment");
 //                ft.commit();
-                EventBus.getDefault().post(new MessageEvent("过年了001"));
+//                EventBus.getDefault().post(new MessageEvent("过年了001"));
                 bottomNavigationBar.selectTab(2,true);
             }
         });

@@ -4,12 +4,13 @@ package com.ak.lkp.friendgift.UI;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.ak.lkp.friendgift.Entity.ItemEntity;
 import com.ak.lkp.friendgift.Entity.LkpResponse;
@@ -18,6 +19,7 @@ import com.ak.lkp.friendgift.R;
 import com.lzy.okgo.OkGo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -31,6 +33,8 @@ public class HomeFragment extends Fragment {
     private ArrayList<String> mTitle = new ArrayList<>();
     private ArrayList<String> mData = new ArrayList<>();
     private ArrayList<Integer> mId = new ArrayList<>();
+    private List<HomeCommonFragment> commonFragmentList = new ArrayList<>();
+
     private View view;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -64,13 +68,13 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
         initData();
         initView();
         return view;
     }
 
     private void initView() {
+
         mTabLayout = ((TabLayout) view.findViewById(R.id.home_tl));
         mViewPager = ((ViewPager) view.findViewById(R.id.home_vp));
     }
@@ -89,9 +93,15 @@ public class HomeFragment extends Fragment {
                             String title = itemEntityLkpResponse.data.getChannels().get(i).getName();
                             int id = itemEntityLkpResponse.data.getChannels().get(i).getId();
                             mId.add(id);
+                            Log.i("=====---======", "onSuccess: id===="+id);
                             mTitle.add(title);
                         }
-                        mViewPager.setAdapter(mAdapter);
+                        for (int i = 0; i < mTitle.size(); i++) {
+                            Log.i("=====---======", "onSuccess: mTitle===="+mId.get(i));
+                          commonFragmentList.add(HomeCommonFragment.newInstance(mId.get(i).toString()));
+                        }
+
+                        mViewPager.setAdapter(new MyViewpagerAdapter(getActivity().getSupportFragmentManager()));
                         mTabLayout.setupWithViewPager(mViewPager);
                     }
 
@@ -102,38 +112,60 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-    private PagerAdapter mAdapter = new PagerAdapter() {
+    public class MyViewpagerAdapter extends FragmentPagerAdapter{
+
+        public MyViewpagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
         @Override
-        public CharSequence getPageTitle(int position) {
-            return mTitle.get(position);
+        public Fragment getItem(int position) {
+            return commonFragmentList.get(position);
         }
 
         @Override
         public int getCount() {
-            return mTitle.size();
+            return commonFragmentList.size();
         }
 
         @Override
-        public Object instantiateItem(View container, int position) {
-            TextView tv = new TextView(getActivity());
-            tv.setTextSize(30.f);
-            tv.setText(mId.get(position)+"");
-            ((ViewPager) container).addView(tv);
-            return tv;
+        public CharSequence getPageTitle(int position) {
+            return mTitle.get(position);
         }
+    }
 
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewPager) container).removeView((View) object);
-
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-    };
-
+//    private PagerAdapter mAdapter = new PagerAdapter() {
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            return mTitle.get(position);
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return mTitle.size();
+//        }
+//
+//        @Override
+//        public Object instantiateItem(View container, int position) {
+//            TextView tv = new TextView(getActivity());
+//            tv.setTextSize(30.f);
+//            tv.setText(mId.get(position)+"");
+//            ((ViewPager) container).addView(tv);
+//            return tv;
+//        }
+//
+//        @Override
+//        public void destroyItem(ViewGroup container, int position, Object object) {
+//            ((ViewPager) container).removeView((View) object);
+//
+//        }
+//
+//        @Override
+//        public boolean isViewFromObject(View view, Object object) {
+//            return view == object;
+//        }
+//    };
+//
     @Override
     public void onDestroy() {
         super.onDestroy();
