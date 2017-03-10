@@ -1,5 +1,6 @@
 package com.ak.lkp.friendgift;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +10,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ak.lkp.friendgift.HelloCharts.BubbleChartActivity;
+import com.ak.lkp.friendgift.HelloCharts.ColumnChartActivity;
+import com.ak.lkp.friendgift.HelloCharts.ComboChartActivity;
+import com.ak.lkp.friendgift.HelloCharts.LineChartActivity;
+import com.ak.lkp.friendgift.HelloCharts.PieChartActivity;
+import com.ak.lkp.friendgift.HelloCharts.PreviewChartsActivity;
 import com.ak.lkp.friendgift.UI.CategoryFragment;
 import com.ak.lkp.friendgift.UI.GiftListFragment;
 import com.ak.lkp.friendgift.UI.HomeFragment;
@@ -36,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private MeFragment meFrament;
     private Fragment currentFragment;
     private ActionBarDrawerToggle mDrawerToggle;
-    private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
+    private String[] lvs = {"Line chart", "Column chart", "Pie chart", "Bubble chart","Combo chart","Preview charts"};
 
 
     @Override
@@ -82,7 +90,34 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         //设置菜单列表
         ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, lvs);
         listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        startActivity(new Intent(MainActivity.this,LineChartActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(MainActivity.this,ColumnChartActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(MainActivity.this,PieChartActivity.class));
+                        break;
+                    case 3:
+                        startActivity(new Intent(MainActivity.this,BubbleChartActivity.class));
+                        break;
+                    case 4:
+                        startActivity(new Intent(MainActivity.this,ComboChartActivity.class));
+                        break;
+                    case 5:
+                        startActivity(new Intent(MainActivity.this,PreviewChartsActivity.class));
+                        break;
+                    default:
+                        break;
+                }
 
+            }
+        });
 
 
         final BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);

@@ -12,6 +12,6 @@
     <string name="pick_one_photo">选择单张图片</string>
     <string name="pick_photo_gif">选择gif图片</string>
     <string name="multiple_pick_photo">多次进入PhotoPicker选择图片</string>
-<string name="open">打开</string>
-<string name="close">关闭</string>
+    <string name="open">打开</string>
+    <string name="close">关闭</string>
 </resources>
